@@ -14,7 +14,7 @@
 	<title>Galeria kwiatów</title>
 </head>
 
-<body>
+<body onload="updateValue()">
 
 
 
@@ -68,11 +68,13 @@
 					<div class="ranges">
 						<div><i class="fas fa-sun"></i>
 							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="sun"><span
-								class="percent">100</span>%</div>
+								class="percent">80</span>%</div>
 						<div><i class="fas fa-tint"></i>
-							<input type="range" name="neon" min="1" max="100" value="20" class="range" id="rain"></div>
+							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="rain"><span
+								class="percent">80</span>%</div>
 						<div><i class="fas fa-snowflake"></i>
-							<input type="range" name="neon" min="1" max="100" value="20" class="range" id="snow"></div>
+							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="snow"><span
+								class="percent">80</span>%</div>
 					</div>
 				</div>
 
@@ -99,12 +101,21 @@
 
 
 	<script>
-		var input = document.getElementById("sun");
-		input.addEventListener("change", updateValue);
-		input.addEventListener("mousemove", updateValue)
+		document.documentElement.style.setProperty("--light", ".8")
+
+
+
+
+		var sun = document.getElementById("sun");
+		sun.addEventListener("change", updateValue);
+		sun.addEventListener("mousemove", updateValue)
+
+
+
+
 
 		function updateValue() {
-			console.log(this.value);
+
 			var percent = document.querySelector('span')
 			percent.textContent = this.value;
 			document.documentElement.style.setProperty("--light", this.value / 100)
