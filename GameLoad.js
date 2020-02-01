@@ -10,5 +10,7 @@ LoadScript("bezier");
 LoadScript("GameEngine");
 LoadScript("GameInput");
 LoadScript("Stalk");
+LoadScript("StalkFactory");
 LoadScript("Flower");
+LoadScript("FlowerFactory");
 LoadScript("Game");

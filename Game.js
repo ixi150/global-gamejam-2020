@@ -66,15 +66,14 @@ class Game
         let sun = GetInputValue("slider-sun")/100;
         let temperature = GetInputValue("slider-temperature")/100;
         
-        // stalk.c0 = { x:GetInputValue('slider-x')/100, y:GetInputValue('slider-y')/100};
-        // stalk.c1 = { x:GetInputValue('slider-c1x')/100, y:GetInputValue('slider-c1y')/100};
-        // stalk.c2 = { x:GetInputValue('slider-c2x')/100, y:GetInputValue('slider-c2y')/100};
-        
         this.flowers.forEach(f => {
             f.water=water;
             f.sun=sun;
             f.temperature=temperature;
-            f.stalks[0].c0.x=GetInputValue('input-x');
+            // let stalk = f.stalks[0];
+            // stalk.c0 = { x:GetInputValue('slider-x')/100, y:GetInputValue('slider-y')/100};
+            // stalk.c1 = { x:GetInputValue('slider-c1x')/100, y:GetInputValue('slider-c1y')/100};
+            // stalk.c2 = { x:GetInputValue('slider-c2x')/100, y:GetInputValue('slider-c2y')/100};
             f.Draw();
         });
         
@@ -85,9 +84,9 @@ class Game
         {
             context.textBaseline = 'top';
             context.textAlign = "right";
-            context.fillStyle = "black";
+            context.fillStyle = "rgba(0,0,0,0.4)";
             context.font = "20px Arial";
-            context.fillText(fps, canvas.width-10, 10);
+            context.fillText("FPS:"+fps, canvas.width-10, 10);
         }
     }
 
@@ -103,9 +102,9 @@ class Game
     }
 }
 
+var game = new Game();
 window.onload = function()
 {
-    var game = new Game();
     game.GameStart();
 
     //Start game loop
