@@ -12,7 +12,7 @@ class Stalk
         this.widthStops=[];
         this.animationTime=0;
 
-        this.curveResolution=100;
+        this.curveResolution=30;
         this.baseWidth=15;
         this.baseHeight=250;
 
@@ -129,11 +129,6 @@ class Stalk
         rotation+=this.rotationOffset+rotAnimation;
         context.rotate(rotation * Math.PI / 180);
 
-        //shadow defaults
-        context.shadowBlur = 8;
-        context.shadowOffsetX = 1;
-        context.shadowOffsetY = 1;
-
         // Define the points as {x, y}
         let start = { x:0, y:0 };
         let cp1 = { x:this.baseHeight*this.c1.x+cos*-1, y:-this.baseHeight*this.c1.y+sin*6 };
@@ -219,7 +214,6 @@ class Stalk
         let color = getColor(this.baseColor, this.frozenColor, this.hotColor, this.modColorTemperature);
         color = getColor(color, this.dryColor, this.wetColor, this.modColorWater);
         context.fillStyle = color;
-        context.shadowColor = "black";
         context.fill();
         
         if (this.drawOutline)
@@ -244,9 +238,6 @@ class Stalk
             context.fill();
         }
        
-        //reset shadows
-        context.shadowColor = "#00000000";
-
         //draw core
         if (this.drawCore)
         {
@@ -364,7 +355,7 @@ function CreateLeaf(leanLeft, size)
     leaf.drawNormals=true;
     size += 0.3*size*Math.sin(Math.random()*2*Math.PI);
     leaf.baseHeight=size;
-    leaf.curveResolution=15;
+    leaf.curveResolution=10;
     leaf.AddWidthStop(0.0, 0.0);
     leaf.AddWidthStop(0.1, .5);
     leaf.AddWidthStop(0.2, 1.0);
@@ -397,7 +388,7 @@ function CreateSpike(leanLeft, size)
     size += 0.3*size*Math.sin(Math.random()*2*Math.PI);
     leaf.baseHeight=size;
     leaf.baseWidth=5;
-    leaf.curveResolution=10;
+    leaf.curveResolution=3;
     leaf.AddWidthStop(0.0, 1.0);
     leaf.AddWidthStop(1.0, 0.0);
     leaf.rotationBiasMultiplier=0;

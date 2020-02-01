@@ -2,7 +2,7 @@ const canvas = document.getElementById("GameCanvas");
 const context = canvas.getContext("2d");
 
 var frame = 0;
-var fps = 60;
+var fps = 30;
 var deltaTime = 1.0/fps;
 var startTime = GetTime();
 var frameCount = 0;
@@ -19,7 +19,10 @@ function GetSliderValue(id)
 
 class Game
 {
-    constructor(){}
+    constructor()
+    {
+        this.UpdateEnded=function(){};
+    }
 
     GameStart()
     {
@@ -27,6 +30,13 @@ class Game
         this.flowers=[];
         this.flowers.push(CreatePlant());
         
+        let plant = CreatePlant();
+        plant.position.x=250
+        this.flowers.push(plant);
+        
+        plant = CreatePlant();
+        plant.position.x=-250
+        this.flowers.push(plant);
         
     }
 
@@ -36,16 +46,18 @@ class Game
         deltaTime = endTime - startTime;
         startTime = endTime;
         frameCount++;
-        frame++;
+        //frame++;
         
         this.GameDraw();
+
+        this.UpdateEnded();
     }
 
     GameDraw()
     {
         context.save();
         context.beginPath();
-        //context.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(0, 0, canvas.width, canvas.height);
         context.fillStyle='#95cbcf';
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.translate(canvas.width/2, canvas.height);
@@ -68,7 +80,7 @@ class Game
         context.restore();
         
         //drawFPS
-        if (keys[81]) //q
+        if (true || keys[81]) //q
         {
             context.textBaseline = 'top';
             context.textAlign = "right";
@@ -97,5 +109,7 @@ window.onload = function()
 
     //Start game loop
     this.gameLoopInterval = window.setInterval(function(){game.GameUpdate();}, 1000/fps);
-    this.gameFpsInterval = window.setInterval(game.FpsCountUpdate, 1000);
+    // game.UpdateEnded = function(){ window.setTimeout(function(){game.GameUpdate();}, 0.01); };
+    // game.GameUpdate();
+    this.gameFpsInterval = window.setInterval(game.FpsCountUpdate, 500);
 };
