@@ -45,7 +45,9 @@ class Game
     {
         context.save();
         context.beginPath();
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        //context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle='#95cbcf';
+        context.fillRect(0, 0, canvas.width, canvas.height);
         context.translate(canvas.width/2, canvas.height);
         
         let water = GetSliderValue("slider-water")/100;
@@ -92,7 +94,7 @@ window.onload = function()
 {
     var game = new Game();
     game.GameStart();
-    
+
     //Start game loop
     this.gameLoopInterval = window.setInterval(function(){game.GameUpdate();}, 1000/fps);
     this.gameFpsInterval = window.setInterval(game.FpsCountUpdate, 1000);
