@@ -25,7 +25,7 @@ class Flower
         this.health = this.maxHealth/2;
 
         this.stalks=[];
-        this.position={ x:0, y:0 };
+        this.position={ x:0, y:-20 };
 
         this.temperature=0;
         this.water=0;
