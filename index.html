@@ -12,7 +12,7 @@
 	<script src="https://kit.fontawesome.com/87305bc3a4.js" crossorigin="anonymous"></script>
 
 
-	<title>Galeria kwiatów</title>
+	<title>Fix the flower</title>
 </head>
 
 <body onload="updateValue()">
@@ -21,7 +21,7 @@
 
 
 	<header>
-		<h1>Napraw kwiatka!</h1>
+		<h1>Fix the flower!</h1>
 	</header>
 
 	<div class="container">
@@ -70,13 +70,13 @@
 					<div class="ranges">
 						<div><i class="fas fa-sun"></i>
 							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="sun"><span
-								class="percent">80</span>%</div>
+								id="percent-sun">80</span>%</div>
 						<div><i class="fas fa-tint"></i>
 							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="rain"><span
-								class="percent">80</span>%</div>
+								class="percent" id="percent-rain">80</span>%</div>
 						<div><i class="fas fa-snowflake"></i>
 							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="snow"><span
-								class="percent">80</span>%</div>
+								class="percent" id="percent-snow">80</span>%</div>
 					</div>
 				</div>
 
@@ -111,19 +111,40 @@
 
 
 		var sun = document.getElementById("sun");
-		sun.addEventListener("change", updateValue);
-		sun.addEventListener("mousemove", updateValue)
+		sun.addEventListener("change", updateValueSun);
+		sun.addEventListener("mousemove", updateValueSun)
+
+		var rain = document.getElementById("rain");
+		rain.addEventListener("change", updateValueRain);
+		rain.addEventListener("mousemove", updateValueRain)
+
+		var snow = document.getElementById("snow");
+		snow.addEventListener("change", updateValueSnow);
+		snow.addEventListener("mousemove", updateValueSnow)
 
 
 
+		function updateValueSun() {
 
-
-		function updateValue() {
-
-			var percent = document.querySelector('span')
+			var percent = document.querySelector("#percent-sun")
 			percent.textContent = this.value;
 			document.documentElement.style.setProperty("--light", this.value / 100)
-			document.documentElement.style.setProperty("--blur", this.value / 4 + "px")
+		}
+
+		function updateValueRain() {
+
+			var percent = document.querySelector("#percent-rain")
+			percent.textContent = this.value;
+
+
+		}
+
+		function updateValueSnow() {
+
+			var percent = document.querySelector("#percent-snow")
+			percent.textContent = this.value;
+
+
 		}
 	</script>
 
