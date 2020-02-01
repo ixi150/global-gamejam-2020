@@ -45,7 +45,7 @@ class Game
     {
         context.save();
         context.beginPath();
-        //context.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(0, 0, canvas.width, canvas.height);
         context.fillStyle='#95cbcf';
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.translate(canvas.width/2, canvas.height);
@@ -68,7 +68,7 @@ class Game
         context.restore();
         
         //drawFPS
-        if (keys[81]) //q
+        if (true || keys[81]) //q
         {
             context.textBaseline = 'top';
             context.textAlign = "right";
