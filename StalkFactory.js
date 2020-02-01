@@ -16,22 +16,6 @@ function CreateStalk()
     return stalk;
 }
 
-function CreateStalkWithLeafs()
-{
-    var stalk = CreateStalk();
-    stalk.AppendChild(CreateSpike(false, 20), .3);
-    stalk.AppendChild(CreateSpike(true, 20), .35);
-    stalk.AppendChild(CreateSpike(true, 20), .4);
-    stalk.AppendChild(CreateSpike(false, 20), .45);
-    stalk.AppendChild(CreateSpike(true, 20), .5);
-    stalk.AppendChild(CreateSpike(false, 20), .55);
-
-    stalk.AppendChild(CreateLeaf(true, 70), .3);
-    stalk.AppendChild(CreateLeaf(false, 70), .5);
-    stalk.AppendChild(CreateLeaf(true, 70), .7);
-    return stalk;
-}
-
 function CreateLeaf(leanLeft, size)
 {
     var leaf = new Stalk();
@@ -60,6 +44,7 @@ function CreateLeaf(leanLeft, size)
     leaf.rotationSpeed = 2 + 1*Math.random();
 
     leaf.baseShape=leaf.wetShape=leaf.dryShape=new CurveShape(2);
+    leaf.attachDistanceFromCore=0.9;
 
     return leaf;
 }
@@ -92,4 +77,81 @@ function CreateSpike(leanLeft, size)
     leaf.rotationSpeed = 0;
 
     return leaf;
+}
+
+
+function CreateHead(size)
+{
+    var head = new Stalk();
+
+    head.baseHeight=size;
+    head.baseWidth=size/2;
+    head.curveResolution=30;
+    head.AddWidthStop(0.0, 0.0);
+    head.AddWidthStop(0.25, 0.66);
+    head.AddWidthStop(0.5, 1.0);
+    head.AddWidthStop(0.75, 0.66);
+    head.AddWidthStop(1.0, 0.0);
+    head.rotationBiasMultiplier=0;
+
+    head.baseColor='#ffff11';
+    head.dryColor=head.baseColor;
+    head.wetColor=head.baseColor;
+    head.frozenColor='#88bbee';
+    head.hotColor='#ee1111';
+    head.baseShape=head.wetShape=head.dryShape;
+    
+    head.rotationOffset=90;
+    head.rotationMagnitude = 0;
+    head.rotationSpeed = 0;
+
+    head.attachDistanceFromCore=0;
+    head.AppendChild(CreatePelet(false, size/2), .01);
+    head.AppendChild(CreatePelet(true,  size/2), .01);
+    head.AppendChild(CreatePelet(false, size/2), .3);
+    head.AppendChild(CreatePelet(true,  size/2), .3);
+    head.AppendChild(CreatePelet(false, size/2), .5);
+    head.AppendChild(CreatePelet(true,  size/2), .5);
+    head.AppendChild(CreatePelet(false, size/2), .7);
+    head.AppendChild(CreatePelet(true,  size/2), .7);
+    head.AppendChild(CreatePelet(false, size/2), .99);
+    head.AppendChild(CreatePelet(true,  size/2), .99);
+
+    // head.AppendChild(CreatePelet(false, size/2), .5);
+    // head.AppendChild(CreatePelet(true,  size/2), .5);
+    return head;
+}
+
+function CreatePelet(leanLeft, size)
+{
+    var head = new Stalk();
+    head.leanLeft=leanLeft;
+    if (!leanLeft)
+    {
+        head.rotationOffset=180;
+    }
+
+    head.baseHeight=size;
+    head.baseWidth=size/2;
+    head.curveResolution=15;
+    head.AddWidthStop(0.0, 0.0);
+    head.AddWidthStop(0.25, 0.66);
+    head.AddWidthStop(0.5, 1.0);
+    head.AddWidthStop(0.75, 0.66);
+    head.AddWidthStop(1.0, 0.0);
+    //head.rotationBiasMultiplier=0;
+
+    head.baseColor='#ffffff';
+    head.dryColor=head.baseColor;
+    head.wetColor=head.baseColor;
+    head.frozenColor='#ffffff';
+    head.hotColor='#ffcccc';
+    head.baseShape=head.wetShape=head.dryShape;
+    
+    //head.rotationOffset=90;
+    head.rotationMagnitude = 5;
+    head.rotationSpeed = 0.5;
+
+    head.attachDistanceFromCore=.8;
+    return head;
 }
