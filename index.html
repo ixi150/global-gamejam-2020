@@ -109,15 +109,15 @@
 			percent.textContent = this.value;
 			document.documentElement.style.setProperty("--light", this.value / 100)
 			document.documentElement.style.setProperty("--blur", this.value / 4 + "px")
-        }
-    </script>
-    
-    <script src="GameLoad.js"></script>
-    <div style="width:100">
-        <input id="slider-water" type="range" min="-100" max="100" value="0">water</input><br/>
-        <input id="slider-sun" type="range" min="-100" max="100" value="0">sun</input><br/>
-        <input id="slider-temperature" type="range" min="-100" max="100" value="0">temperature</input><br/>
-    </div>
+		}
+	</script>
+
+	<script src="GameLoad.js"></script>
+	<div style="width:100" class="sliders">
+		<input id="slider-water" type="range" min="-100" max="100" value="0">water</input><br />
+		<input id="slider-sun" type="range" min="-100" max="100" value="0">sun</input><br />
+		<input id="slider-temperature" type="range" min="-100" max="100" value="0">temperature</input><br />
+	</div>
 </body>
 
 </html>
