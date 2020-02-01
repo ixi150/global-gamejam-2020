@@ -12,7 +12,7 @@ class Stalk
         this.widthStops=[];
         this.animationTime=0;
 
-        this.curveResolution=100;
+        this.curveResolution=30;
         this.baseWidth=15;
         this.baseHeight=250;
 
@@ -364,7 +364,7 @@ function CreateLeaf(leanLeft, size)
     leaf.drawNormals=true;
     size += 0.3*size*Math.sin(Math.random()*2*Math.PI);
     leaf.baseHeight=size;
-    leaf.curveResolution=15;
+    leaf.curveResolution=10;
     leaf.AddWidthStop(0.0, 0.0);
     leaf.AddWidthStop(0.1, .5);
     leaf.AddWidthStop(0.2, 1.0);
@@ -397,7 +397,7 @@ function CreateSpike(leanLeft, size)
     size += 0.3*size*Math.sin(Math.random()*2*Math.PI);
     leaf.baseHeight=size;
     leaf.baseWidth=5;
-    leaf.curveResolution=10;
+    leaf.curveResolution=3;
     leaf.AddWidthStop(0.0, 1.0);
     leaf.AddWidthStop(1.0, 0.0);
     leaf.rotationBiasMultiplier=0;

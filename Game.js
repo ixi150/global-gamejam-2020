@@ -2,7 +2,7 @@ const canvas = document.getElementById("GameCanvas");
 const context = canvas.getContext("2d");
 
 var frame = 0;
-var fps = 60;
+var fps = 30;
 var deltaTime = 1.0/fps;
 var startTime = GetTime();
 var frameCount = 0;
