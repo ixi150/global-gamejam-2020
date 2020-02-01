@@ -30,7 +30,7 @@ function OnKeyCodeDown(event)
 
 function OnKeyCodeUp(event) 
 {
-    var char = event.which || event.keyCode;
-    console.log("KeyUp: " + char);
+    // var char = event.which || event.keyCode;
+    // console.log("KeyUp: " + char);
     keys[event.keyCode] = false;
 }

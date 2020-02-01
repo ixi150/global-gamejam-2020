@@ -129,11 +129,6 @@ class Stalk
         rotation+=this.rotationOffset+rotAnimation;
         context.rotate(rotation * Math.PI / 180);
 
-        //shadow defaults
-        context.shadowBlur = 8;
-        context.shadowOffsetX = 1;
-        context.shadowOffsetY = 1;
-
         // Define the points as {x, y}
         let start = { x:0, y:0 };
         let cp1 = { x:this.baseHeight*this.c1.x+cos*-1, y:-this.baseHeight*this.c1.y+sin*6 };
@@ -219,7 +214,6 @@ class Stalk
         let color = getColor(this.baseColor, this.frozenColor, this.hotColor, this.modColorTemperature);
         color = getColor(color, this.dryColor, this.wetColor, this.modColorWater);
         context.fillStyle = color;
-        context.shadowColor = "black";
         context.fill();
         
         if (this.drawOutline)
@@ -244,9 +238,6 @@ class Stalk
             context.fill();
         }
        
-        //reset shadows
-        context.shadowColor = "#00000000";
-
         //draw core
         if (this.drawCore)
         {

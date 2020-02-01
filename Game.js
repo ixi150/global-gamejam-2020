@@ -19,7 +19,10 @@ function GetSliderValue(id)
 
 class Game
 {
-    constructor(){}
+    constructor()
+    {
+        this.UpdateEnded=function(){};
+    }
 
     GameStart()
     {
@@ -36,9 +39,11 @@ class Game
         deltaTime = endTime - startTime;
         startTime = endTime;
         frameCount++;
-        frame++;
+        //frame++;
         
         this.GameDraw();
+
+        this.UpdateEnded();
     }
 
     GameDraw()
@@ -94,8 +99,13 @@ window.onload = function()
 {
     var game = new Game();
     game.GameStart();
-
+    game.UpdateEnded = function()
+    {
+        window.setTimeout(function(){game.GameUpdate();}, 0.01);
+    };
     //Start game loop
-    this.gameLoopInterval = window.setInterval(function(){game.GameUpdate();}, 1000/fps);
-    this.gameFpsInterval = window.setInterval(game.FpsCountUpdate, 1000);
+    //this.gameLoopInterval = window.setInterval(function(){game.GameUpdate();}, 1000/fps);
+
+    game.GameUpdate();
+    this.gameFpsInterval = window.setInterval(game.FpsCountUpdate, 500);
 };
