@@ -12,7 +12,7 @@ function GetTime()
 {
     return Date.now() / 1000;
 }
-function GetSliderValue(id)
+function GetInputValue(id)
 {
     return document.getElementById(id).value*1;
 }
@@ -62,18 +62,18 @@ class Game
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.translate(canvas.width/2, canvas.height);
         
-        let water = GetSliderValue("slider-water")/100;
-        let sun = GetSliderValue("slider-sun")/100;
-        let temperature = GetSliderValue("slider-temperature")/100;
-        
-        // stalk.c0 = { x:GetSliderValue('slider-x')/100, y:GetSliderValue('slider-y')/100};
-        // stalk.c1 = { x:GetSliderValue('slider-c1x')/100, y:GetSliderValue('slider-c1y')/100};
-        // stalk.c2 = { x:GetSliderValue('slider-c2x')/100, y:GetSliderValue('slider-c2y')/100};
+        let water = GetInputValue("slider-water")/100;
+        let sun = GetInputValue("slider-sun")/100;
+        let temperature = GetInputValue("slider-temperature")/100;
         
         this.flowers.forEach(f => {
             f.water=water;
             f.sun=sun;
             f.temperature=temperature;
+            // let stalk = f.stalks[0];
+            // stalk.c0 = { x:GetInputValue('slider-x')/100, y:GetInputValue('slider-y')/100};
+            // stalk.c1 = { x:GetInputValue('slider-c1x')/100, y:GetInputValue('slider-c1y')/100};
+            // stalk.c2 = { x:GetInputValue('slider-c2x')/100, y:GetInputValue('slider-c2y')/100};
             f.Draw();
         });
         
@@ -84,9 +84,9 @@ class Game
         {
             context.textBaseline = 'top';
             context.textAlign = "right";
-            context.fillStyle = "black";
+            context.fillStyle = "rgba(0,0,0,0.4)";
             context.font = "20px Arial";
-            context.fillText(fps, canvas.width-10, 10);
+            context.fillText("FPS:"+fps, canvas.width-10, 10);
         }
     }
 
@@ -102,9 +102,9 @@ class Game
     }
 }
 
+var game = new Game();
 window.onload = function()
 {
-    var game = new Game();
     game.GameStart();
 
     //Start game loop

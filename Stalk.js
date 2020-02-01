@@ -1,3 +1,54 @@
+class CurveShape
+{
+    constructor(preset)
+    {
+        this.points=[];
+        let c1;
+        let c2;
+        let end;
+        switch(preset)
+        {
+            case 0: //s
+            c1 = {x:0.1, y:0.4};
+            c2 = {x:-0.2, y:0.6};
+            end = {x:0.1, y:1};
+            break;
+
+            case 1: //wet
+            c1 = {x:-0.33, y:0.0};
+            c2 = {x:-0.22, y:1.0};
+            end = {x:0.15, y:0.33};
+            break;
+
+            case 2: //leaf
+            c1 = {x:0.2, y:0.3};
+            c2 = {x:-0.3, y:0.75};
+            end = {x:0.1, y:1.0};
+            break;
+            
+            default: //default straight
+            c1 = {x:0.0, y:0.3};
+            c2 = {x:0.0, y:0.7};
+            end = {x:0.0, y:1.0};
+        }
+        
+        this.points.push(c1);
+        this.points.push(c2);
+        this.points.push(end);
+    }
+}
+
+function lerpCurves(a, b, t)
+{
+    var curve = new CurveShape(0);
+    for(let i=0; i<curve.points.length; i++)
+    {
+        curve.points[i].x=Math.lerp(a.points[i].x, b.points[i].x, t);
+        curve.points[i].y=Math.lerp(a.points[i].y, b.points[i].y, t);
+    }
+    return curve;
+}
+
 class Stalk
 {
     constructor()
@@ -24,16 +75,12 @@ class Stalk
         this.normalsLengthBonus=-1;
         this.normalsDencity=0.92;
         this.normalsWidth=1;
+
         this.baseColor='#00dd00';
         this.frozenColor='#b3e6e5';
         this.hotColor='#eb4e10';
         this.dryColor='#80612d';
         this.wetColor='#125214';
-        // this.baseColor='rgb(0, 200, 0)';
-        // this.frozenColor='rgb(0, 200, 200)';
-        // this.hotColor='rgb(200, 200, 0)';
-        // this.dryColor='rgb(100, 150, 50)';
-        // this.wetColor='rgb(0, 50, 40)';
         this.coreColor='rgba(0, 0, 0, 0.5)';
         this.normalsColor='rgba(0, 0, 0, 0.3)';
 
@@ -44,9 +91,9 @@ class Stalk
         this.drawCore=false;
         this.drawNormals=false;
 
-        this.c0 = {x:0.0, y:1.0};
-        this.c1 = {x:0.0, y:0.3};
-        this.c2 = {x:0.0, y:0.7};
+        this.baseShape=new CurveShape(0);
+        this.wetShape=new CurveShape(1);
+        this.dryShape=new CurveShape(-1);
 
         this.modWidth=1;
         this.childrenRotationBias=0;
@@ -130,10 +177,24 @@ class Stalk
         context.rotate(rotation * Math.PI / 180);
 
         // Define the points as {x, y}
+        let shape;
+        if (this.modColorWater >= 0)
+        {
+            shape=lerpCurves(this.baseShape, this.wetShape, this.modColorWater);
+        }
+        else
+        {
+            shape=lerpCurves(this.baseShape, this.dryShape, -this.modColorWater);
+        }
+
+        let c1=shape.points[0];
+        let c2=shape.points[1];
+        let c0=shape.points[2];
+
         let start = { x:0, y:0 };
-        let cp1 = { x:this.baseHeight*this.c1.x+cos*-1, y:-this.baseHeight*this.c1.y+sin*6 };
-        let cp2 = { x:this.baseHeight*this.c2.x+cos*-2, y:-this.baseHeight*this.c2.y+sin*4 };
-        let end = { x:this.baseHeight*this.c0.x+cos*-3, y:-this.baseHeight*this.c0.y+sin*2 };
+        let cp1 = { x:this.baseHeight*c1.x+cos*-1, y:-this.baseHeight*c1.y+sin*6 };
+        let cp2 = { x:this.baseHeight*c2.x+cos*-2, y:-this.baseHeight*c2.y+sin*4 };
+        let end = { x:this.baseHeight*c0.x+cos*-3, y:-this.baseHeight*c0.y+sin*2 };
         if (this.leanLeft)
         {
             cp1.x*=-1;
@@ -143,7 +204,7 @@ class Stalk
         var curve = new Bezier(start.x, start.y , cp1.x, cp1.y , cp2.x, cp2.y , end.x, end.y);
 
 
-        // Normals
+        // Calculate points
         let bodyPoints=[];
         let corePoints=[];
         let normalRoots=[];
@@ -306,101 +367,4 @@ class Stalk
 
         context.restore();
     }
-}
-
-function CreateStalk()
-{
-    var stalk = new Stalk();
-    stalk.baseColor='#00dd00';
-    stalk.baseHeight=400;
-    stalk.AddWidthStop(0.0, 2);
-    stalk.AddWidthStop(0.1, 1.5);
-    stalk.AddWidthStop(0.8, 1.1);
-    stalk.AddWidthStop(0.95, 0.9);
-    stalk.AddWidthStop(1.0, 0.0);
-
-    stalk.c0 = {x:0.1, y:1.0};
-    stalk.c1 = {x:0.2, y:0.3};
-    stalk.c2 = {x:-0.3, y:0.75};
-
-    return stalk;
-}
-
-function CreateStalkWithLeafs()
-{
-    var stalk = CreateStalk();
-    stalk.AppendChild(CreateSpike(false, 20), .3);
-    stalk.AppendChild(CreateSpike(true, 20), .35);
-    stalk.AppendChild(CreateSpike(true, 20), .4);
-    stalk.AppendChild(CreateSpike(false, 20), .45);
-    stalk.AppendChild(CreateSpike(true, 20), .5);
-    stalk.AppendChild(CreateSpike(false, 20), .55);
-
-    stalk.AppendChild(CreateLeaf(true, 70), .3);
-    stalk.AppendChild(CreateLeaf(false, 70), .5);
-    stalk.AppendChild(CreateLeaf(true, 70), .7);
-    return stalk;
-}
-
-function CreateLeaf(leanLeft, size)
-{
-    var leaf = new Stalk();
-    leaf.leanLeft=leanLeft;
-    if (!leanLeft)
-    {
-        leaf.rotationOffset=180;
-    }
-
-    leaf.drawCore=true;
-    leaf.drawNormals=true;
-    size += 0.3*size*Math.sin(Math.random()*2*Math.PI);
-    leaf.baseHeight=size;
-    leaf.curveResolution=10;
-    leaf.AddWidthStop(0.0, 0.0);
-    leaf.AddWidthStop(0.1, .5);
-    leaf.AddWidthStop(0.2, 1.0);
-    leaf.AddWidthStop(0.8, 0.2);
-    leaf.AddWidthStop(1.0, 0.0);
-
-    leaf.dryColor='#edd079';
-    leaf.wetColor='#073008';
-    leaf.hotColor='#ff0000';
-    
-    leaf.rotationMagnitude = 5 + 5*Math.random();
-    leaf.rotationSpeed = 2 + 1*Math.random();
-
-    leaf.c0 = {x:0.1, y:1.0};
-    leaf.c1 = {x:0.2, y:0.3};
-    leaf.c2 = {x:-0.3, y:0.75};
-
-    return leaf;
-}
-
-function CreateSpike(leanLeft, size)
-{
-    var leaf = new Stalk();
-    leaf.leanLeft=leanLeft;
-    if (!leanLeft)
-    {
-        leaf.rotationOffset=180;
-    }
-
-    size += 0.3*size*Math.sin(Math.random()*2*Math.PI);
-    leaf.baseHeight=size;
-    leaf.baseWidth=5;
-    leaf.curveResolution=3;
-    leaf.AddWidthStop(0.0, 1.0);
-    leaf.AddWidthStop(1.0, 0.0);
-    leaf.rotationBiasMultiplier=0;
-
-    leaf.baseColor='#a88431';
-    leaf.dryColor=leaf.baseColor;
-    leaf.wetColor=leaf.baseColor;
-    leaf.frozenColor='#ffffff';
-    leaf.hotColor='#000000';
-    
-    leaf.rotationMagnitude = 0;
-    leaf.rotationSpeed = 0;
-
-    return leaf;
 }

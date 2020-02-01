@@ -16,7 +16,6 @@ class Modifier
     }
 }
 
-
 class Flower
 {
     constructor()
@@ -71,9 +70,4 @@ class Flower
     }
 }
 
-function CreatePlant()
-{
-    var flower = new Flower();
-    flower.AddStalk(CreateStalkWithLeafs());
-    return flower;
-}
+
