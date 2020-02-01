@@ -62,7 +62,7 @@ class Game
             f.water=water;
             f.sun=sun;
             f.temperature=temperature;
-            f.Draw();
+            //f.Draw();
         });
         
         context.restore();
