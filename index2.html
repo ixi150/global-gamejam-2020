@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+
+
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="style.css" />
+	<script src="https://kit.fontawesome.com/87305bc3a4.js" crossorigin="anonymous"></script>
+
+
+	<title>Galeria kwiatów</title>
+</head>
+
+<body>
+
+
+
+
+	<header>
+		<h1>Uratuj kwiatka!</h1>
+	</header>
+
+	<div class="container">
+
+		<div class="empty">
+
+
+
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo justo condimentum facilisis
+			semper.
+			Nulla bibendum lorem sollicitudin purus lacinia, a ullamcorper dolor gravida. Class aptent taciti
+			sociosqu
+			ad litora torquent per conubia nostra, per inceptos himenaeos. Duis id neque tristique, efficitur arcu
+			sit
+			amet, aliquam tellus. Proin tempor, risus ac sagittis iaculis, orci purus elementum massa, at feugiat
+			sapien
+			neque vel lorem. Nunc vitae risus molestie neque ullamcorper finibus euismod ac odio. In vestibulum odio
+			tellus, rhoncus consequat dui iaculis vel. Duis ullamcorper fringilla lorem sed dapibus. Morbi vehicula
+			vehicula pellentesque. Etiam ut facilisis massa.
+		</div>
+
+		<div class="game">
+
+
+			<div class="canvas-container">
+				<div class="canvas">
+
+					<img src="img/1.jpg" alt="flower" class="img-size-1" />
+					<div class="night"></div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+		</div>
+
+		<div class="text-area">
+
+			<div class="controls">
+				<div class="flex-container">
+					<div class="ranges">
+						<div><i class="fas fa-sun"></i>
+							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="sun"><span
+								class="percent">100</span>%</div>
+						<div><i class="fas fa-tint"></i>
+							<input type="range" name="neon" min="1" max="100" value="20" class="range"></div>
+						<div><i class="fas fa-snowflake"></i>
+							<input type="range" name="neon" min="1" max="100" value="20" class="range"></div>
+					</div>
+				</div>
+
+
+
+
+
+
+				<div class="buttons">
+					<button><img src="img/fertilizer.png" /></button>
+					<button><i class="fas fa-skull-crossbones"></i></button>
+					<button><i class="fas fa-bolt"></i></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+
+
+
+
+
+
+
+	<script>
+		var input = document.getElementById("sun");
+		input.addEventListener("change", updateValue);
+		input.addEventListener("mousemove", updateValue)
+
+		function updateValue() {
+			console.log(this.value);
+			var percent = document.querySelector('span')
+			percent.textContent = this.value;
+			document.documentElement.style.setProperty("--light", this.value / 100)
+			document.documentElement.style.setProperty("--blur", this.value / 4 + "px")
+		}
+	</script>
+</body>
+
+</html>
