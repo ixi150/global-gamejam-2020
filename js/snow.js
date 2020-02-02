@@ -23,4 +23,4 @@ var makeItSnow = function () {
     $('.snow.back-row').append(backDrops);
 }
 
-makeItSnow();
+//makeItSnow();

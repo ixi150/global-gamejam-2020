@@ -140,7 +140,8 @@
 	document.documentElement.style.setProperty("--light", "0.8")
 
 
-
+	var snowStarted=false;
+	var rainStarted=false;
 
 	var sun = document.getElementById("sun");
 	sun.addEventListener("change", updateValueSun);
@@ -171,7 +172,11 @@
 
 		var percent = document.querySelector("#percent-rain")
 		percent.textContent = this.value;
-
+		if (!rainStarted && this.value>0)
+		{
+			makeItRain();
+			rainStarted=true;
+		}
 
 		let children = document.querySelectorAll(".drop")
 		children.forEach(child => {
@@ -179,8 +184,7 @@
 			if (this.value == 0) {
 				child.style.setProperty('animation-duration', 0 + "s")
 			} else {
-
-				child.style.setProperty('animation-duration', 40 / this.value + "s")
+				child.style.setProperty('animation-duration', 40 / this.value + "s");
 			}
 		})
 
@@ -198,7 +202,11 @@
 
 		var percent = document.querySelector("#percent-snow")
 		percent.textContent = this.value;
-
+		if (!snowStarted && this.value>0)
+		{
+			makeItSnow();
+			snowStarted=true;
+		}
 
 		let children = document.querySelectorAll(".snow-flake")
 		children.forEach(child => {
@@ -206,7 +214,6 @@
 			if (this.value == 0) {
 				child.style.setProperty('animation-duration', 0 + "s")
 			} else {
-
 				child.style.setProperty('animation-duration', 80 / this.value + "s")
 			}
 		})
