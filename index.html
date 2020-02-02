@@ -8,21 +8,26 @@
 
 
 	<link rel="stylesheet" href="style.css" />
+	<link href="css/weather.css" rel="stylesheet">
+
 	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap&subset=latin-ext" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/87305bc3a4.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.dom.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/addons/p5.sound.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
 	<title>Fix the flower</title>
 </head>
 
-<body onload="updateValue()">
+<div onload="updateValue()">
 
 
 
 
 	<header>
-		<h1>Fix the flowers!</h1>
-		<h2>Points: <span id="points">0</span></h2>
+		<h1>Fix the flower!</h1>
 	</header>
 
 	<div class="container">
@@ -52,11 +57,18 @@
 				<div class="canvas">
 
 					<canvas id="GameCanvas" width="800" height="600"></canvas>
+
 					<div class="night"></div>
+					<div class="back-row-toggle splat-toggle rain-container">
+						<div class="rain front-row "></div>
+
+
+					</div>
+
+
+
 				</div>
 			</div>
-
-
 
 
 
@@ -70,14 +82,14 @@
 				<div class="flex-container">
 					<div class="ranges">
 						<div><i class="fas fa-sun"></i>
-							<input type="range" name="neon" min="0" max="100" value="80" class="range" id="sun"><span
+							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="sun"><span
 								id="percent-sun">80</span>%</div>
 						<div><i class="fas fa-tint"></i>
 							<input type="range" name="neon" min="0" max="100" value="0" class="range" id="rain"><span
 								class="percent" id="percent-rain">0</span>%</div>
 						<div><i class="fas fa-snowflake"></i>
-							<input type="range" name="neon" min="0" max="100" value="0" class="range" id="snow"><span
-								class="percent" id="percent-snow">0</span>%</div>
+							<input type="range" name="neon" min="1" max="100" value="1" class="range" id="snow"><span
+								class="percent" id="percent-snow">1</span>%</div>
 					</div>
 				</div>
 
@@ -95,7 +107,7 @@
 		</div>
 	</div>
 
-	</div>
+</div>
 
 
 
@@ -105,63 +117,93 @@
 
 
 
-	<script>
-		document.documentElement.style.setProperty("--light", "0.8")
+<script>
+	document.documentElement.style.setProperty("--light", "0.8")
 
 
 
 
-		var sun = document.getElementById("sun");
-		sun.addEventListener("change", updateValueSun);
-		sun.addEventListener("mousemove", updateValueSun)
+	var sun = document.getElementById("sun");
+	sun.addEventListener("change", updateValueSun);
+	sun.addEventListener("mousemove", updateValueSun)
 
-		var rain = document.getElementById("rain");
-		rain.addEventListener("change", updateValueRain);
-		rain.addEventListener("mousemove", updateValueRain)
+	var rain = document.getElementById("rain");
+	rain.addEventListener("change", updateValueRain);
+	rain.addEventListener("mousemove", updateValueRain)
 
-		var snow = document.getElementById("snow");
-		snow.addEventListener("change", updateValueSnow);
-		snow.addEventListener("mousemove", updateValueSnow)
-
-
-
-		function updateValueSun() {
-
-			var percent = document.querySelector("#percent-sun")
-			percent.textContent = this.value;
-			document.documentElement.style.setProperty("--light", this.value / 100)
-		}
-
-		function updateValueRain() {
-
-			var percent = document.querySelector("#percent-rain")
-			percent.textContent = this.value;
+	var snow = document.getElementById("snow");
+	snow.addEventListener("change", updateValueSnow);
+	snow.addEventListener("mousemove", updateValueSnow)
 
 
-		}
 
-		function updateValueSnow() {
+	function updateValueSun() {
 
-			var percent = document.querySelector("#percent-snow")
-			percent.textContent = this.value;
+		var percent = document.querySelector("#percent-sun")
+		percent.textContent = this.value;
+		document.documentElement.style.setProperty("--light", this.value / 100)
+	}
+
+	function updateValueRain() {
+
+		var percent = document.querySelector("#percent-rain")
+		percent.textContent = this.value;
 
 
-		}
-	</script>
+		let children = document.querySelectorAll(".drop")
+		children.forEach(child => {
 
-	<script src="GameLoad.js"></script>
-	<div style="display:none" class="sliders">
-		<input id="slider-water" type="range" min="-100" max="100" value="0">water</input><br />
-		<input id="slider-sun" type="range" min="-100" max="100" value="0">sun</input><br />
-		<input id="slider-temperature" type="range" min="-100" max="100" value="0">temperature</input><br />
-		<!--<input id="input-x" type="number" value="0">x</input><br />-->
-		<!-- <input id='slider-x' type="range" min="-100" max="100" value="0">x</input><br />
+			if (this.value == 0) {
+				child.style.setProperty('animation-duration', 0 + "s")
+			} else {
+
+				child.style.setProperty('animation-duration', 10 / this.value + "s")
+			}
+		})
+
+
+
+
+
+
+
+
+	}
+
+
+	function updateValueSnow() {
+
+		var percent = document.querySelector("#percent-snow")
+		percent.textContent = this.value;
+
+
+	}
+</script>
+
+
+
+<script src="GameLoad.js"></script>
+<script src="js/rain.js"></script>
+
+
+
+
+<div style="display:none" class="sliders">
+	<input id="slider-water" type="range" min="-100" max="100" value="0">water</input><br />
+	<input id="slider-sun" type="range" min="-100" max="100" value="0">sun</input><br />
+	<input id="slider-temperature" type="range" min="-100" max="100" value="0">temperature</input><br />
+	<!--<input id="input-x" type="number" value="0">x</input><br />-->
+	<!-- <input id='slider-x' type="range" min="-100" max="100" value="0">x</input><br />
 		<input id='slider-y' type="range" min="-100" max="100" value="0">y</input><br />
 		<input id='slider-c1x' type="range" min="-100" max="100" value="0">c1x</input><br />
 		<input id='slider-c1y' type="range" min="-100" max="100" value="0">c1y</input><br />
 		<input id='slider-c2x' type="range" min="-100" max="100" value="0">c2x</input><br />
 		<input id='slider-c2y' type="range" min="-100" max="100" value="0">c2y</input><br /> -->
-	</div>
+</div>
+
+
+
+
 </body>
 
 </html>

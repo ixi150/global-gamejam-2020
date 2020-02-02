@@ -98,7 +98,14 @@ class Game
         context.save();
         context.beginPath();
         context.clearRect(0, 0, canvas.width, canvas.height);
-        context.fillStyle='#95cbcf';
+        var lingrad = context.createLinearGradient(-10, 0, 0, canvas.height);
+        lingrad.addColorStop(0, '#2d3554');
+        lingrad.addColorStop(0.85, '#ed7411');
+        lingrad.addColorStop(0.85, '#ffed78');
+        lingrad.addColorStop(1, '#26C000');
+
+        //context.fillStyle='#2d3554';
+        context.fillStyle=lingrad;
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.translate(canvas.width/2, canvas.height);
         
