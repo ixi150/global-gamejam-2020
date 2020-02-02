@@ -33,20 +33,31 @@
 	<div class="container">
 
 		<div class="empty">
-			<div class="trivia">
+			<div class="typewriter">
+				<div class="trivia">
+					<h1>Flowers</h1>
 
 
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo justo condimentum facilisis
-				semper.
-				Nulla bibendum lorem sollicitudin purus lacinia, a ullamcorper dolor gravida. Class aptent taciti
-				sociosqu
-				ad litora torquent per conubia nostra, per inceptos himenaeos. Duis id neque tristique, efficitur arcu
-				sit
-				amet, aliquam tellus. Proin tempor, risus ac sagittis iaculis, orci purus elementum massa, at feugiat
-				sapien
-				neque vel lorem. Nunc vitae risus molestie neque ullamcorper finibus euismod ac odio. In vestibulum odio
-				tellus, rhoncus consequat dui iaculis vel. Duis ullamcorper fringilla lorem sed dapibus. Morbi vehicula
-				vehicula pellentesque. Etiam ut facilisis massa.
+					Daisies belong to the daisy family of Compositae, now known as Asteraceae in flowering plants.
+					Daisies
+					are native to north and central Europe.<br>
+
+
+					A rose is a woody perennial flowering plant of the genus Rosa, in the family Rosaceae, or the flower
+					it
+					bears. There are over three hundred species and thousands of cultivars. They form a group of plants
+					that
+					can be erect shrubs, climbing, or trailing, with stems that are often armed with sharp prickles.<br>
+
+					A cactus (plural cacti, cactuses, or less commonly, cactus) is a member of the plant family
+					Cactaceae, a
+					family comprising about 127 genera with some 1750 known species of the order Caryophyllales. The
+					word
+					"cactus" derives, through Latin, from the Ancient Greek κάκτος, kaktos, a name originally used by
+					Theophrastus for a spiny plant whose identity is not certain.
+
+
+				</div>
 			</div>
 		</div>
 
@@ -133,14 +144,17 @@
 	var sun = document.getElementById("sun");
 	sun.addEventListener("change", updateValueSun);
 	sun.addEventListener("mousemove", updateValueSun)
+	sun.addEventListener("touchmove", updateValueSun)
 
 	var rain = document.getElementById("rain");
 	rain.addEventListener("change", updateValueRain);
 	rain.addEventListener("mousemove", updateValueRain)
+	rain.addEventListener("touchmove", updateValueRain)
 
 	var snow = document.getElementById("snow");
 	snow.addEventListener("change", updateValueSnow);
 	snow.addEventListener("mousemove", updateValueSnow)
+	snow.addEventListener("touchmove", updateValueSnow)
 
 
 
