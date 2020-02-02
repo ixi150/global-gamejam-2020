@@ -451,14 +451,24 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 
+.snow-container {
+    position: absolute;
+    max-width: 50vw;
+    width: 100%;
+    height: 100%;
+    max-height: 50vh;
+    margin: 0;
+    overflow: hidden;
 
+}
 
 .snow {
+
     position: absolute;
     margin: auto;
 
 
-    z-index: 1000;
+    z-index: 900;
     max-width: 50vw;
     width: 100%;
     height: 100%;
@@ -470,11 +480,12 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 
-.snow {
+.snow-flake {
     position: absolute;
     bottom: 100%;
     width: 10px;
-    height: 100px;
+    height: 10px;
+    border-radius: 50%;
     pointer-events: none;
 
     animation: drop 0.5s linear infinite;
