@@ -2,7 +2,7 @@ function CreateStalk()
 {
     var stalk = new Stalk();
     stalk.baseColor='#00dd00';
-    stalk.baseHeight=400;
+    stalk.baseHeight=300;
     stalk.AddWidthStop(0.0, 2);
     stalk.AddWidthStop(0.1, 1.5);
     stalk.AddWidthStop(0.8, 1.1);
@@ -29,6 +29,7 @@ function CreateLeaf(leanLeft, size)
     leaf.drawNormals=true;
     size += 0.3*size*Math.sin(Math.random()*2*Math.PI);
     leaf.baseHeight=size;
+    leaf.baseWidth=size/3;
     leaf.curveResolution=10;
     leaf.AddWidthStop(0.0, 0.0);
     leaf.AddWidthStop(0.1, .5);
@@ -75,10 +76,10 @@ function CreateSpike(leanLeft, size)
     
     leaf.rotationMagnitude = 0;
     leaf.rotationSpeed = 0;
+    leaf.inheritsModWidth=false;
 
     return leaf;
 }
-
 
 function CreateHead(size)
 {
@@ -104,8 +105,15 @@ function CreateHead(size)
     head.rotationOffset=90;
     head.rotationMagnitude = 0;
     head.rotationSpeed = 0;
-
+    //head.inheritsModWidth=false;
     head.attachDistanceFromCore=0;
+    return head;
+}
+
+function CreateHeadWithPellets(size)
+{
+    var head = CreateHead(size);
+
     head.AppendChild(CreatePelet(false, size/2), .01);
     head.AppendChild(CreatePelet(true,  size/2), .01);
     head.AppendChild(CreatePelet(false, size/2), .3);

@@ -93,8 +93,24 @@ class Vector
 }
 
 
-Math.lerp = function (value1, value2, amount) {
+Math.lerp = function (value1, value2, amount) 
+{
 	amount = amount < 0 ? 0 : amount;
 	amount = amount > 1 ? 1 : amount;
 	return value1 + (value2 - value1) * amount;
+};
+
+Math.clamp = function (v, min, max) 
+{
+    if (v >= max) return max;
+    if (v <= min) return min;
+    return v;
+};
+
+Math.moveTowards = function (current, target, delta)
+{
+    let missing = target-current;
+    if (Math.abs(missing)<delta)
+        return target;
+    return current + delta*Math.sign(missing);
 };

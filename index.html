@@ -27,7 +27,8 @@
 
 
 	<header>
-		<h1>Fix the flower!</h1>
+		<h1>Fix the flowers!</h1>
+		<h2>Points: <span id="points">0</span></h2>
 	</header>
 
 	<div class="container">
@@ -178,7 +179,7 @@
 				child.style.setProperty('animation-duration', 0 + "s")
 			} else {
 
-				child.style.setProperty('animation-duration', 10 / this.value + "s")
+				child.style.setProperty('animation-duration', 40 / this.value + "s")
 			}
 		})
 
@@ -205,7 +206,7 @@
 				child.style.setProperty('animation-duration', 0 + "s")
 			} else {
 
-				child.style.setProperty('animation-duration', 10 / this.value + "s")
+				child.style.setProperty('animation-duration', 80 / this.value + "s")
 			}
 		})
 
@@ -223,7 +224,7 @@
 
 
 
-<div style="width:100" class="sliders">
+<div style="display:none" class="sliders">
 	<input id="slider-water" type="range" min="-100" max="100" value="0">water</input><br />
 	<input id="slider-sun" type="range" min="-100" max="100" value="0">sun</input><br />
 	<input id="slider-temperature" type="range" min="-100" max="100" value="0">temperature</input><br />
