@@ -105,11 +105,13 @@ class Stalk
         this.wetShape=new CurveShape(1);
         this.dryShape=new CurveShape(-1);
 
+        this.inheritsModWidth=true;
         this.modWidth=1;
         this.childrenRotationBias=0;
         this.modColorTemperature=0;
         this.modColorWater=0;
         this.modAnimationSpeed=1;
+        this.modSize=1;
     }
 
     AddWidthStop(lengthPercent, widthMultiplier)
@@ -189,16 +191,21 @@ class Stalk
 
         // Define the points as {x, y}
         let shape=lerp3curves(this.dryShape, this.baseShape, this.wetShape, this.modColorWater);
+        let modifiedHeight=this.modSize*this.baseHeight;
+        shape.points.forEach(p => {
+            p.x*=modifiedHeight;
+            p.y*=modifiedHeight;
+        });
         let c1=shape.points[0];
         let c2=shape.points[1];
         let c0=shape.points[2];
 
-        sin*=this.baseHeight;
-        cos*=this.baseHeight;
+        sin*=modifiedHeight;
+        cos*=modifiedHeight;
         let start = { x:0, y:0 };
-        let cp1 = { x:this.baseHeight*c1.x+cos*-.01, y:-this.baseHeight*c1.y+sin*.06 };
-        let cp2 = { x:this.baseHeight*c2.x+cos*-.02, y:-this.baseHeight*c2.y+sin*.04 };
-        let end = { x:this.baseHeight*c0.x+cos*-.03, y:-this.baseHeight*c0.y+sin*.02 };
+        let cp1 = { x:c1.x+cos*-.01, y:-c1.y+sin*.06 };
+        let cp2 = { x:c2.x+cos*-.02, y:-c2.y+sin*.04 };
+        let end = { x:c0.x+cos*-.03, y:-c0.y+sin*.02 };
         if (this.leanLeft)
         {
             cp1.x*=-1;
@@ -224,7 +231,7 @@ class Stalk
             
             let sin = Math.sin(t * 0 * Math.PI);
             let bodyWidth = this.baseWidth + sin * 0;
-            bodyWidth*=this.EvaluateWidthStops(t) * this.modWidth;
+            bodyWidth *= this.modSize * this.EvaluateWidthStops(t) * this.modWidth;
             let offset = { x: bodyWidth*nv.x, y: bodyWidth*nv.y};
             let p1 = { x: pt.x+offset.x, y:pt.y+offset.y};
             let p2 = { x: pt.x-offset.x, y:pt.y-offset.y};
@@ -340,7 +347,7 @@ class Stalk
         for (let i=0; i<this.childStalks.length; i++)
         {
             let child = this.childStalks[i];
-            let index = Math.min( Math.max( Math.floor(child.anchor*corePoints.length), 1), corePoints.length);
+            let index = Math.clamp( Math.floor(child.anchor*corePoints.length), 1, corePoints.length);
             let corePos = corePoints[index];
             if (child.leanLeft)
                 index = bodyPoints.length - index;
@@ -350,8 +357,8 @@ class Stalk
             let nv = curve.normal(child.anchor);
             var angle = Math.atan2(nv.y, nv.x);
             var degrees = 180*angle/Math.PI;
-
-            child.modWidth=this.modWidth;
+            child.modSize=this.modSize;
+            if (child.inheritsModWidth) child.modWidth=this.modWidth;
             child.modColorTemperature=this.modColorTemperature;
             child.modColorWater=this.modColorWater;
             child.modAnimationSpeed=this.modAnimationSpeed;

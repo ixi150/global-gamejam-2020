@@ -21,7 +21,8 @@
 
 
 	<header>
-		<h1>Fix the flower!</h1>
+		<h1>Fix the flowers!</h1>
+		<h2>Points: <span id="points">0</span></h2>
 	</header>
 
 	<div class="container">
@@ -69,14 +70,14 @@
 				<div class="flex-container">
 					<div class="ranges">
 						<div><i class="fas fa-sun"></i>
-							<input type="range" name="neon" min="1" max="100" value="80" class="range" id="sun"><span
+							<input type="range" name="neon" min="0" max="100" value="80" class="range" id="sun"><span
 								id="percent-sun">80</span>%</div>
 						<div><i class="fas fa-tint"></i>
-							<input type="range" name="neon" min="1" max="100" value="1" class="range" id="rain"><span
-								class="percent" id="percent-rain">1</span>%</div>
+							<input type="range" name="neon" min="0" max="100" value="0" class="range" id="rain"><span
+								class="percent" id="percent-rain">0</span>%</div>
 						<div><i class="fas fa-snowflake"></i>
-							<input type="range" name="neon" min="1" max="100" value="1" class="range" id="snow"><span
-								class="percent" id="percent-snow">1</span>%</div>
+							<input type="range" name="neon" min="0" max="100" value="0" class="range" id="snow"><span
+								class="percent" id="percent-snow">0</span>%</div>
 					</div>
 				</div>
 
@@ -149,7 +150,7 @@
 	</script>
 
 	<script src="GameLoad.js"></script>
-	<div style="width:100" class="sliders">
+	<div style="display:none" class="sliders">
 		<input id="slider-water" type="range" min="-100" max="100" value="0">water</input><br />
 		<input id="slider-sun" type="range" min="-100" max="100" value="0">sun</input><br />
 		<input id="slider-temperature" type="range" min="-100" max="100" value="0">temperature</input><br />

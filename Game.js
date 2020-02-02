@@ -8,6 +8,12 @@ var startTime = GetTime();
 var frameCount = 0;
 var frameCountingTime = 0;
 
+var sun=0;
+var rain=0;
+var snow=0; 
+var temperature=0;
+var points=0;
+
 function GetTime()
 {
     return Date.now() / 1000;
@@ -28,15 +34,11 @@ class Game
     {
         //Scene init
         this.flowers=[];
-        this.flowers.push(CreatePlant());
-        
+        this.wonFlowers=[];
         let plant = CreatePlant();
-        plant.position.x=250
+        plant.position.x=300;
         this.flowers.push(plant);
         
-        plant = CreatePlant();
-        plant.position.x=-250
-        this.flowers.push(plant);
         
     }
 
@@ -48,6 +50,44 @@ class Game
         frameCount++;
         //frame++;
         
+        sun = GetInputValue("sun");
+        rain = GetInputValue("rain");
+        snow = GetInputValue("snow");
+        temperature = 1.5*sun-snow-rain/10;
+
+        for (let i = 0; i < this.flowers.length; i++) 
+        {
+            const f = this.flowers[i];
+            f.position.x-=25*deltaTime;
+
+            if (f.size>=1)
+            {
+                this.wonFlowers.push(f);
+                this.flowers.splice(i, 1);
+                document.getElementById("points").textContent=++points;
+                continue;
+            }
+
+            if (f.position.x < -canvas.width/2)
+            {
+                this.flowers.splice(i, 1);
+                continue;
+            }
+
+            f.Update();
+        }
+        
+        for (let i = 0; i < this.wonFlowers.length; i++) 
+        {
+            const f = this.wonFlowers[i];
+            f.position.y+=90*deltaTime;
+
+            if (f.position.y > canvas.height)
+            {
+                this.wonFlowers.splice(i, 1);
+            }
+        }
+
         this.GameDraw();
 
         this.UpdateEnded();
@@ -62,18 +102,10 @@ class Game
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.translate(canvas.width/2, canvas.height);
         
-        let water = GetInputValue("slider-water")/100;
-        let sun = GetInputValue("slider-sun")/100;
-        let temperature = GetInputValue("slider-temperature")/100;
-        
         this.flowers.forEach(f => {
-            f.water=water;
-            f.sun=sun;
-            f.temperature=temperature;
-            // let stalk = f.stalks[0];
-            // stalk.c0 = { x:GetInputValue('slider-x')/100, y:GetInputValue('slider-y')/100};
-            // stalk.c1 = { x:GetInputValue('slider-c1x')/100, y:GetInputValue('slider-c1y')/100};
-            // stalk.c2 = { x:GetInputValue('slider-c2x')/100, y:GetInputValue('slider-c2y')/100};
+            f.Draw();
+        });
+        this.wonFlowers.forEach(f => {
             f.Draw();
         });
         
@@ -102,14 +134,22 @@ class Game
     }
 }
 
+function SpawnNewFlower()
+{
+    let plant = CreatePlant();
+    plant.position.x=500
+    game.flowers.push(plant);
+}
+
 var game = new Game();
 window.onload = function()
 {
     game.GameStart();
 
     //Start game loop
-    this.gameLoopInterval = window.setInterval(function(){game.GameUpdate();}, 1000/fps);
+    window.setInterval(function(){game.GameUpdate();}, 1000/fps);
     // game.UpdateEnded = function(){ window.setTimeout(function(){game.GameUpdate();}, 0.01); };
     // game.GameUpdate();
-    this.gameFpsInterval = window.setInterval(game.FpsCountUpdate, 500);
+    window.setInterval(game.FpsCountUpdate, 500);
+    window.setInterval(SpawnNewFlower, 6000);
 };
