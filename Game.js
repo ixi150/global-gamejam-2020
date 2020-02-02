@@ -64,11 +64,12 @@ class Game
             {
                 this.wonFlowers.push(f);
                 this.flowers.splice(i, 1);
-                document.getElementById("points").textContent=++points;
+                points+=f.points;
+                document.getElementById("points").textContent=points;
                 continue;
             }
 
-            if (f.position.x < -canvas.width/2)
+            if (f.position.x < -canvas.width*.65)
             {
                 this.flowers.splice(i, 1);
                 continue;

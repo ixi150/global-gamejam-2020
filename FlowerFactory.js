@@ -35,6 +35,7 @@ function CreateDaisy()
 function CreateRose()
 {
     var flower = new Flower();
+    flower.points=3;
     var stalk = CreateStalk();
     stalk.AppendChild(CreateSpike(false, 20), .3);
     stalk.AppendChild(CreateSpike(true, 20), .35);
@@ -68,6 +69,7 @@ function CreateRose()
 function CreateCactus()
 {
     var flower = new Flower();
+    flower.points=2;
     var stalk = CreateStalk();
     stalk.ClearWidthStops();
     stalk.AddWidthStop(0.0, 0.8);

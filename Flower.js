@@ -20,6 +20,7 @@ class Flower
 {
     constructor()
     {
+        this.points=1;
         this.perfectTemperature =   80 + 15*Math.random();
         this.perfectRain =          30 + 15*Math.random();
         this.perfectSun =           60 + 15*Math.random();
