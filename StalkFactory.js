@@ -2,7 +2,7 @@ function CreateStalk()
 {
     var stalk = new Stalk();
     stalk.baseColor='#00dd00';
-    stalk.baseHeight=400;
+    stalk.baseHeight=300;
     stalk.AddWidthStop(0.0, 2);
     stalk.AddWidthStop(0.1, 1.5);
     stalk.AddWidthStop(0.8, 1.1);
@@ -81,7 +81,6 @@ function CreateSpike(leanLeft, size)
     return leaf;
 }
 
-
 function CreateHead(size)
 {
     var head = new Stalk();
@@ -108,6 +107,13 @@ function CreateHead(size)
     head.rotationSpeed = 0;
     //head.inheritsModWidth=false;
     head.attachDistanceFromCore=0;
+    return head;
+}
+
+function CreateHeadWithPellets(size)
+{
+    var head = CreateHead(size);
+
     head.AppendChild(CreatePelet(false, size/2), .01);
     head.AppendChild(CreatePelet(true,  size/2), .01);
     head.AppendChild(CreatePelet(false, size/2), .3);

@@ -35,11 +35,11 @@ class Game
         //Scene init
         this.flowers=[];
         this.wonFlowers=[];
-        let plant = CreatePlant();
+        let plant = CreateDaisy();
         plant.position.x=300;
         this.flowers.push(plant);
         
-        
+        //this.flowers.push(CreateRose());
     }
 
     GameUpdate()
