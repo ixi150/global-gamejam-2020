@@ -38,15 +38,24 @@ class CurveShape
     }
 }
 
+function lerpPoints(a,b,t)
+{
+    let point = { x: Math.lerp(a.x, b.x, t), y: Math.lerp(a.y, b.y, t) };
+    return point;
+}
+
 function lerpCurves(a, b, t)
 {
     var curve = new CurveShape(0);
     for(let i=0; i<curve.points.length; i++)
-    {
-        curve.points[i].x=Math.lerp(a.points[i].x, b.points[i].x, t);
-        curve.points[i].y=Math.lerp(a.points[i].y, b.points[i].y, t);
-    }
+        curve.points[i]=lerpPoints(a.points[i], b.points[i], t);
     return curve;
+}
+
+function lerp3curves(a,b,c,t)
+{
+    if (t >= 0) return lerpCurves(b, c, t);
+    else return lerpCurves(b, a, -t);
 }
 
 class Stalk
@@ -56,6 +65,7 @@ class Stalk
         this.childStalks=[];
         this.childStalksRotationMultiplier=1.5;
         this.leanLeft=false;
+        this.attachDistanceFromCore=1;
         this.rotationOffset=0;
         this.rotationBiasMultiplier=1;
         this.rotationSpeed=0.5+.8*Math.random();
@@ -170,6 +180,7 @@ class Stalk
         context.save();
         context.translate(position.x, -position.y);
         this.animationTime += deltaTime*this.rotationSpeed*this.modAnimationSpeed;
+        this.animationTime %= Math.PI*2;
         let sin=Math.sin(this.animationTime);
         let cos=Math.cos(this.animationTime);
         let rotAnimation=sin*this.rotationMagnitude;
@@ -177,24 +188,17 @@ class Stalk
         context.rotate(rotation * Math.PI / 180);
 
         // Define the points as {x, y}
-        let shape;
-        if (this.modColorWater >= 0)
-        {
-            shape=lerpCurves(this.baseShape, this.wetShape, this.modColorWater);
-        }
-        else
-        {
-            shape=lerpCurves(this.baseShape, this.dryShape, -this.modColorWater);
-        }
-
+        let shape=lerp3curves(this.dryShape, this.baseShape, this.wetShape, this.modColorWater);
         let c1=shape.points[0];
         let c2=shape.points[1];
         let c0=shape.points[2];
 
+        sin*=this.baseHeight;
+        cos*=this.baseHeight;
         let start = { x:0, y:0 };
-        let cp1 = { x:this.baseHeight*c1.x+cos*-1, y:-this.baseHeight*c1.y+sin*6 };
-        let cp2 = { x:this.baseHeight*c2.x+cos*-2, y:-this.baseHeight*c2.y+sin*4 };
-        let end = { x:this.baseHeight*c0.x+cos*-3, y:-this.baseHeight*c0.y+sin*2 };
+        let cp1 = { x:this.baseHeight*c1.x+cos*-.01, y:-this.baseHeight*c1.y+sin*.06 };
+        let cp2 = { x:this.baseHeight*c2.x+cos*-.02, y:-this.baseHeight*c2.y+sin*.04 };
+        let end = { x:this.baseHeight*c0.x+cos*-.03, y:-this.baseHeight*c0.y+sin*.02 };
         if (this.leanLeft)
         {
             cp1.x*=-1;
@@ -272,8 +276,8 @@ class Stalk
             }
             return lerpColor(base, min, -t);
         }
-        let color = getColor(this.baseColor, this.frozenColor, this.hotColor, this.modColorTemperature);
-        color = getColor(color, this.dryColor, this.wetColor, this.modColorWater);
+        let color = getColor(this.baseColor, this.dryColor, this.wetColor, this.modColorWater);
+        color = getColor(color, this.frozenColor, this.hotColor, this.modColorTemperature);
         context.fillStyle = color;
         context.fill();
         
@@ -336,12 +340,12 @@ class Stalk
         for (let i=0; i<this.childStalks.length; i++)
         {
             let child = this.childStalks[i];
-            let index = Math.round(child.anchor*corePoints.length);
+            let index = Math.min( Math.max( Math.floor(child.anchor*corePoints.length), 1), corePoints.length);
+            let corePos = corePoints[index];
             if (child.leanLeft)
-            {
                 index = bodyPoints.length - index;
-            }
-            let pos = bodyPoints[index];
+
+            let pos = lerpPoints(corePos, bodyPoints[index], child.attachDistanceFromCore);
             pos.y*=-1;
             let nv = curve.normal(child.anchor);
             var angle = Math.atan2(nv.y, nv.x);
