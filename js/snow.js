@@ -22,3 +22,5 @@ var makeItSnow = function () {
     $('.snow.front-row').append(drops);
     $('.snow.back-row').append(backDrops);
 }
+
+makeItSnow();
